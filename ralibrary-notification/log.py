@@ -9,7 +9,6 @@ __all__ = ['logger']
 
 def generate_log_filename():
     """Returns the full path of a log file."""
-
     # '2017-12-25T18:00:00.000000' to '20171225_180000'
     current_time = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
     # sample: 'ralibrary_notification.20171219_112410.log'
