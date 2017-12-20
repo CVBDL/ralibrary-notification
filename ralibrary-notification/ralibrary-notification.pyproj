@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>98793e48-f992-46d5-8fe5-f2f76f2d2b0a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ralibrary_notification.py</StartupFile>
+    <StartupFile>__main__.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,16 +25,22 @@
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ralibrary_notification.py" />
+    <Compile Include="log.py" />
+    <Compile Include="notification.py" />
+    <Compile Include="__main__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\" />
+    <Folder Include="logs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\certificate.cer" />
     <Content Include="assets\config.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="logs\README.md" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
