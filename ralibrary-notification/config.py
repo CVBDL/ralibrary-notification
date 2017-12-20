@@ -12,7 +12,7 @@ class NotificationConfig:
     Example:
         cfg = NotificationConfig()
         cfg.config['request_timeout_seconds']  # Output: 30
-"""
+    """
 
     _config = None
     _default_file_path = os.path.join(
