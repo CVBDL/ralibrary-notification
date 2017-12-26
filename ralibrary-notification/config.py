@@ -17,7 +17,7 @@ class NotificationConfig:
     _config = None
     _default_file_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        'assets', 'config.jsona')
+        'assets', 'config.json')
 
     def __init__(self, file_path=None):
         self._config = self._from_json_file(file_path)

@@ -1,75 +1,68 @@
 from datetime import datetime, timedelta
 import dateutil.parser
+import os
 import requests
-import sys
 
-# URL: https://github.com/CVBDL/RaLibraryDocs/blob/master/rest-api.md
-ralibrary_borrows_api_endpoint = r'/ralibrary/api/borrows'
 
-# URL: https://github.com/CVBDL/RaNotification
-ranotification_api_endpoint = r'/ranotification/api/mailnotification'
+class Notification:
+    """Notification message."""
 
-# https certificate file path
-certificate_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'assets', 'certificate.cer')
+    _borrower = None
+    _borrows = None
+    _config = None
+    _email_subject = 'RA book library reminder'
+    _email_body = 'Your borrowed books will expire in 2 weeks.'
 
-# use http basic authentication
-auth = requests.auth.HTTPBasicAuth('cron', 'cron')
+    def __init__(self, borrower, borrows, config=None):
+        self._borrower = borrower
+        self._borrows = borrows
+        self._config = self._read_config(config)
 
-# timeout in seconds
-timeout = 30
+    def reminder_in_days(self, days=14):
+        reminder_borrows = []
+        utcnow = datetime.utcnow()
+        reminder = timedelta(days=days)
+        for borrow in self._borrows:
+            expected_return_time = dateutil.parser.parse(
+                borrow['ExpectedReturnTime'])
+            if utcnow + reminder > expected_return_time:
+                reminder_borrows.append(borrow)
+        self._notify(reminder_borrows)
 
-try:
-    req = requests.get(ralibrary_borrows_api_endpoint,
-                       auth=HTTPBasicAuth('user', 'pass'),
-                       verify=certificate_path,
-                       timeout=timeout)
-    req.raise_for_status()
-except TimeoutError:
-    print('Timeout')
-    sys.exit(1)
-except HTTPError:
-    print('http error.')
-    sys.exit(1)
-except:
-    print('error')
-    sys.exit(1)
+    def _notify(self, borrows):
+        url = self._config.get('api_endpoint_mailnotification')
+        timeout = self._config.get('request_timeout_seconds')
+        certificate_path = self._get_certificate_path()
+        payload = {
+            "From":"no-reply@ranotification.ra-int.com",
+            "To": [self._borrower],
+            "Subject": self._email_subject,
+            "Body": self._email_body
+        }
+        req = requests.post(url, data=payload,
+                            timeout=timeout, verify=certificate_path)
+        try:
+            req.raise_for_status()
+        except:
+            raise Exception('Notification: Failed to send notification.')
 
-#[{
-#  "Borrower": "pzhong@ra.rockwell.com",
-#  "BorrowTime": "2017-09-24T05:33:46.007",
-#  "ExpectedReturnTime": "2017-12-23T05:33:46.007",
-#  "Book": {
-#    "Id": 2,
-#    "Code": "P002",
-#    "ISBN10": "7111348664",
-#    "ISBN13": "9787111348665",
-#    "Title": "???????????",
-#    "Subtitle": "",
-#    "Authors": "Jesse James Garrett",
-#    "Publisher": null,
-#    "PublishedDate": "2011",
-#    "Description": null,
-#    "PageCount": 191,
-#    "ThumbnailLink": null,
-#    "CreatedDate": "2017-12-16T18:48:51.993",
-#    "RowVersion": "AAAAAAAARlI="
-#  }
-#}]
-try:
-    borrows = req.json()
-except:
-    print('Error parsing borrows JSON.')
-    sys.exit(1)
+    def _read_config(self, config):
+        if not config or not isinstance(config, dict):
+            raise Exception('Missing config.')
+        if 'api_endpoint_mailnotification' not in config:
+            # Check required config fields.
+            raise Exception('Notification: Missing required config fields.')
+        cfg = {
+            'api_endpoint_mailnotification':
+                config['api_endpoint_mailnotification'],
+            'request_timeout_seconds':
+                config.get('request_timeout_seconds', 30),
+            'email_body': config.get('email_body', self._email_body),
+            'email_subject': config.get('email_subject', self._email_subject)
+        }
+        return cfg
 
-utcnow = datetime.utcnow()
-
-# Notify borrower two weeks before book's expire date
-notification_threshold = timedelta(days=14)
-
-for borrow in borrows:
-    expected_return_time = dateutil.parser.parse(borrow['ExpectedReturnTime'])
-    if utcnow + notification_threshold > expected_return_time:
-        print('should notify')
-    else:
-        pass
+    def _get_certificate_path(self):
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            'assets',
+                            'certificate.cer')
