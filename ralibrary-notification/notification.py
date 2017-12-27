@@ -7,18 +7,18 @@ import requests
 class Notification:
     """Notification message."""
 
+    _config = None
     _borrower = None
     _borrows = None
-    _config = None
-    _email_subject = 'RA book library reminder'
-    _email_body = 'Your borrowed books will expire in 2 weeks.'
 
-    def __init__(self, borrower, borrows, config=None):
+    def __init__(self, config, borrower, borrows):
+        self._config = config
         self._borrower = borrower
         self._borrows = borrows
-        self._config = self._read_config(config)
 
-    def reminder_in_days(self, days=14):
+    def remind_in_days(self, days=None):
+        if days is None:
+            days = self._config.reminder_days
         reminder_borrows = []
         utcnow = datetime.utcnow()
         reminder = timedelta(days=days)
@@ -27,40 +27,25 @@ class Notification:
                 borrow['ExpectedReturnTime'])
             if utcnow + reminder > expected_return_time:
                 reminder_borrows.append(borrow)
-        self._notify(reminder_borrows)
+        self._send(reminder_borrows)
 
-    def _notify(self, borrows):
-        url = self._config.get('api_endpoint_mailnotification')
-        timeout = self._config.get('request_timeout_seconds')
-        certificate_path = self._get_certificate_path()
+    def _send(self, borrows):
+        # Doc: https://github.com/CVBDL/RaNotification
         payload = {
-            "From":"no-reply@ranotification.ra-int.com",
+            "From": self._config.email_from,
             "To": [self._borrower],
-            "Subject": self._email_subject,
-            "Body": self._email_body
+            "Subject": self._config.email_subject,
+            "Body": self._config.email_body
         }
-        req = requests.post(url, data=payload,
-                            timeout=timeout, verify=certificate_path)
         try:
+            req = requests.post(self._config.api_endpoint_mailnotification,
+                                data=payload,
+                                timeout=self._config.request_timeout_seconds,
+                                verify=self._get_certificate_path())
             req.raise_for_status()
         except:
-            raise Exception('Notification: Failed to send notification.')
-
-    def _read_config(self, config):
-        if not config or not isinstance(config, dict):
-            raise Exception('Missing config.')
-        if 'api_endpoint_mailnotification' not in config:
-            # Check required config fields.
-            raise Exception('Notification: Missing required config fields.')
-        cfg = {
-            'api_endpoint_mailnotification':
-                config['api_endpoint_mailnotification'],
-            'request_timeout_seconds':
-                config.get('request_timeout_seconds', 30),
-            'email_body': config.get('email_body', self._email_body),
-            'email_subject': config.get('email_subject', self._email_subject)
-        }
-        return cfg
+            raise Exception(str.format('Notification: Failed to notify {0}',
+                                       self._borrower))
 
     def _get_certificate_path(self):
         return os.path.join(os.path.dirname(os.path.abspath(__file__)),

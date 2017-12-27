@@ -1,10 +1,11 @@
 {
-  "account_username": "",
-  "account_password": "",
+  "ralibrary_username": "cron",
+  "ralibrary_password": "cron",
 
   "api_endpoint_borrows": "https://apcndaec3ycs12.ra-int.com/ralibrary/api/borrows",
   "api_endpoint_mailnotification": "https://apcndaec3ycs12.ra-int.com/ranotification/api/mailnotification",
 
+  "email_from": "noreply@rockwellautomation.com",
   "email_body": "RA Library Reminder: Your borrowed books are about to expire.",
   "email_subject": "RA book library reminder",
 

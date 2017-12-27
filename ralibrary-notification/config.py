@@ -2,7 +2,7 @@ import json
 import os
 
 
-class NotificationConfig:
+class ConfigParser:
     """Provide global configurations.
 
     Args:
@@ -14,13 +14,13 @@ class NotificationConfig:
         cfg.config['request_timeout_seconds']  # Output: 30
     """
 
-    _config = None
+    _raw_config = None
     _default_file_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
         'assets', 'config.json')
 
     def __init__(self, file_path=None):
-        self._config = self._from_json_file(file_path)
+        self._raw_config = self._from_json_file(file_path)
 
     def _from_json_file(self, file_path):
         try:
@@ -31,5 +31,76 @@ class NotificationConfig:
             return None
 
     @property
-    def config(self):
-        return self._config
+    def raw_config(self):
+        return self._raw_config
+
+
+class Config:
+    """Provide config values."""
+
+    _config = None
+
+    def __init__(self, config=None):
+        if not config or not isinstance(config, dict):
+            raise Exception('Config: Cannot read config file.')
+        if 'ralibrary_username' not in config:
+            raise Exception(
+                'Config: Missing "ralibrary_username" field.')
+        if 'ralibrary_password' not in config:
+            raise Exception(
+                'Config: Missing "ralibrary_password" field.')
+        if 'api_endpoint_borrows' not in config:
+            raise Exception(
+                'Config: Missing "api_endpoint_borrows" field.')
+        if 'api_endpoint_mailnotification' not in config:
+            raise Exception(
+                'Config: Missing "api_endpoint_mailnotification" field.')
+        # init config
+        self._config = config
+
+    @property
+    def ralibrary_username(self):
+        return self._config.get('ralibrary_username')
+
+    @property
+    def ralibrary_password(self):
+        return self._config.get('ralibrary_password')
+
+    @property
+    def api_endpoint_borrows(self):
+        return self._config.get('api_endpoint_borrows')
+
+    @property
+    def api_endpoint_mailnotification(self):
+        return self._config.get('api_endpoint_mailnotification')
+
+    @property
+    def email_subject(self):
+        subject = 'RA book library reminder'
+        return self._config.get('email_subject', subject)
+
+    @property
+    def email_from(self):
+        mailfrom = 'noreply@rockwellautomation.com'
+        return self._config.get('email_from', mailfrom)
+
+    @property
+    def email_body(self):
+        body = 'Your borrowed books will expire soon.'
+        return self._config.get('email_body', body)
+
+    @property
+    def request_timeout_seconds(self):
+        return self._config.get('request_timeout_seconds', 30)
+
+    @property
+    def request_interval(self):
+        return self._config.get('request_interval', 2)
+
+    @property
+    def reminder_days(self):
+        return self._config.get('reminder_days', 14)
+
+
+def get_config():
+    return Config(config=ConfigParser().raw_config)

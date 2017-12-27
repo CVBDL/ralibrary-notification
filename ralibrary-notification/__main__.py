@@ -1,10 +1,24 @@
+import sys
+
+import config
+from log import logger
 from borrows import Borrows
-from config import NotificationConfig
 from notification import Notification
 
+
 if __name__ == '__main__':
-    config = NotificationConfig().config
-    borrows = Borrows()
-    for key, group in borrows.group_of_borrower:
-        notify = Notification(key, group, config=config)
-        notify.reminder_in_days()
+    logger.info('Job started.')
+
+    try:
+        cfg = config.get_config()
+        borrows = Borrows(cfg)
+        for key, group in borrows.group_of_borrower:
+            try:
+                notification = Notification(cfg, key, group)
+                notification.remind_in_days()
+            except Exception as e:
+                logger.warn(e)
+    except Exception as e:
+        logger.error(e)
+
+    logger.info('Job finished.')
