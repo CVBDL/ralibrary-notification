@@ -16,20 +16,7 @@ class Notification:
         self._borrower = borrower
         self._borrows = borrows
 
-    def remind_in_days(self, days=None):
-        if days is None:
-            days = self._config.reminder_days
-        reminder_borrows = []
-        utcnow = datetime.utcnow()
-        reminder = timedelta(days=days)
-        for borrow in self._borrows:
-            expected_return_time = dateutil.parser.parse(
-                borrow['ExpectedReturnTime'])
-            if utcnow + reminder > expected_return_time:
-                reminder_borrows.append(borrow)
-        self._send(reminder_borrows)
-
-    def _send(self, borrows):
+    def send_mail(self):
         # Doc: https://github.com/CVBDL/RaNotification
         payload = {
             "From": self._config.email_from,
