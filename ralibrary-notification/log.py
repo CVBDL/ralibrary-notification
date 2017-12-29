@@ -1,8 +1,9 @@
 """Logging module."""
 
-from datetime import datetime
 import logging
 import os
+from datetime import datetime
+
 
 __all__ = ['logger']
 

@@ -1,10 +1,10 @@
-"""Load borrows."""
-
-from datetime import datetime, timedelta
-from itertools import groupby
 import dateutil.parser
 import os
 import requests
+from datetime import datetime, timedelta
+from itertools import groupby
+
+from certificate import Certificate
 
 
 class BorrowsLoader:
@@ -29,7 +29,7 @@ class BorrowsLoader:
             req = requests.get(self._config.api_endpoint_borrows,
                                timeout=self._config.request_timeout_seconds,
                                auth=auth,
-                               verify=self._get_certificate_path())
+                               verify=Certificate.get_path())
             try:
                 req.raise_for_status()
             except:
@@ -64,32 +64,3 @@ class BorrowsLoader:
 
     def _is_expired(self, borrow: dict) -> bool:
         return self._is_about_expire(borrow, 0)
-
-    def _get_certificate_path(self):
-        return os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            'assets',
-                            'certificate.cer')
-
-#[
-#  {
-#    "Borrower": "patrick@example.com",
-#    "BorrowTime": "2017-09-24T11:08:48",
-#    "ExpectedReturnTime": "2017-10-24T11:08:48",
-#    "Book": {
-#      "Id": 2,
-#      "Code": "P002",
-#      "ISBN10": "7111348664",
-#      "ISBN13": "9787111348665",
-#      "Title": "Design",
-#      "Subtitle": "",
-#      "Authors": "Jesse James Garrett",
-#      "Publisher": null,
-#      "PublishedDate": "2011",
-#      "Description": null,
-#      "PageCount": 191,
-#      "ThumbnailLink": null,
-#      "CreatedDate": "2017-09-24T11:08:48.93",
-#      "RowVersion": "AAAAAAAAF3I="
-#    }
-#  }
-#]

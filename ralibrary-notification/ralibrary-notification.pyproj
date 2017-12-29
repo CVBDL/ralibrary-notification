@@ -12,6 +12,8 @@
     <OutputPath>.</OutputPath>
     <Name>ralibrary-notification</Name>
     <RootNamespace>ralibrary-notification</RootNamespace>
+    <InterpreterId>{366bce24-989d-4696-8e3e-9aae9f953bf9}</InterpreterId>
+    <InterpreterVersion>3.5</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,11 +24,25 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="borrowsloader.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="certificate.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="log.py" />
-    <Compile Include="notification.py" />
+    <Compile Include="message_formatter.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mailnotification.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="__main__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -41,6 +57,20 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="logs\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="..\..\..\..\AppData\Local\Programs\Python\Python36-32-VirtualEnv\">
+      <Id>{366bce24-989d-4696-8e3e-9aae9f953bf9}</Id>
+      <BaseInterpreter>{019d98dd-ca3d-4eaa-8b12-abeb9a878def}</BaseInterpreter>
+      <Version>3.5</Version>
+      <Description>Python36-32-VirtualEnv (Python36-32)</Description>
+      <InterpreterPath>Scripts\python3.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw3.exe</WindowsInterpreterPath>
+      <LibraryPath>Lib\</LibraryPath>
+      <PathEnvironmentVariable>
+      </PathEnvironmentVariable>
+      <Architecture>X86</Architecture>
+    </Interpreter>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

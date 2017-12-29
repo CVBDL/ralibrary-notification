@@ -1,17 +1,16 @@
-from datetime import datetime, timedelta
 import dateutil.parser
 import os
 import requests
+from datetime import datetime, timedelta
+
+from certificate import Certificate
 
 
 class MailNotificationError(Exception):
-    """Notification service error."""
     pass
 
 
 class MailNotification:
-    """Send mail notification."""
-
     _config = None
     _msg = None
     _to = None
@@ -34,7 +33,7 @@ class MailNotification:
             req = requests.post(self._config.api_endpoint_mailnotification,
                                 data=self._get_payload(),
                                 timeout=self._config.request_timeout_seconds,
-                                verify=self._get_certificate_path())
+                                verify=Certificate.get_path())
             req.raise_for_status()
         except:
             raise MailNotificationError(
@@ -51,8 +50,3 @@ class MailNotification:
             'Subject': self._msg.get('title', ''),
             'Body': self._msg.get('body', '')
         }
-
-    def _get_certificate_path(self):
-        return os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            'assets',
-                            'certificate.cer')

@@ -1,6 +1,4 @@
 class MessageFormatter:
-    """Generate message."""
-
     _borrows = None
     _config = None
 
@@ -20,13 +18,10 @@ class MessageFormatter:
     def _serialize_body(self):
         body = 'The following books are about to expire:\n\n'
         for borrow in self._borrows:
-            row = str.format('- {0} / {1} / Expire Date: {2}\n',
-                             borrow['Book']['Title'],
-                             borrow['Book']['Code'],
-                             borrow['ExpectedReturnTime'])
-            body += row
-        body += '\n\n'
-        body += str.format('View it in RA book library client: {0}',
+            body += str.format('- {0} / {1} / Expire Date: {2}\n',
+                               borrow['Book']['Title'],
+                               borrow['Book']['Code'],
+                               borrow['ExpectedReturnTime'])
+        body += str.format('\n\nView it in RA book library client: {0}\n',
                            self._config.ralibrary_client)
-        body += '\n\n'
         return body

@@ -1,8 +1,9 @@
 import sys
+import time
 
 import config
-from log import logger
 from borrowsloader import BorrowsLoader
+from log import logger
 from message_formatter import MessageFormatter
 from mailnotification import MailNotification, MailNotificationError
 
@@ -20,6 +21,7 @@ if __name__ == '__main__':
                 raise Exception(str.format('MessageFormatter: {0}', e))
             try:
                 notification = MailNotification(cfg, borrower, msg)
+                time.sleep(cfg.request_interval)
                 notification.send()
             except MailNotificationError as e:
                 # continue running

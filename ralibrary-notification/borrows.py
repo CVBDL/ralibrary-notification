@@ -1,2 +1,0 @@
-class Borrows:
-    pass
