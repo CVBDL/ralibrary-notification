@@ -90,6 +90,10 @@ class Config:
         return self._config.get('email_body', body)
 
     @property
+    def ralibrary_client(self):
+        return self._config.get('ralibrary_client', '')
+
+    @property
     def request_timeout_seconds(self):
         return self._config.get('request_timeout_seconds', 30)
 

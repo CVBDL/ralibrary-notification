@@ -9,6 +9,8 @@
   "email_body": "RA Library Reminder: Your borrowed books are about to expire.",
   "email_subject": "RA book library reminder",
 
+  "ralibrary_client":  "https://apcndaec3ycs12.ra-int.com/ralibraryclient/profile",
+
   "request_timeout_seconds": 30,
 
   "request_interval": 2,
