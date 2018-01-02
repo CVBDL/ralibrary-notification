@@ -84,10 +84,15 @@ class NotificationFallbackLogger():
         print(str.format('[{0}] {1}', level, msg))
 
 
-# singleton logger accross this app
-try:
-    logger = NotificationLogger(logging).logger
-except:
-    logger = NotificationFallbackLogger()
+def _get_logger():
+    try:
+        logger = NotificationLogger(logging).logger
+    except:
+        logger = NotificationFallbackLogger()
+    
+    return logger
 
+
+# singleton logger accross scripts
+logger = _get_logger()
 logger.info('Log file is created successfully.')
