@@ -3,17 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>98793e48-f992-46d5-8fe5-f2f76f2d2b0a</ProjectGuid>
-    <ProjectHome>
-    </ProjectHome>
-    <StartupFile>__main__.py</StartupFile>
+    <ProjectGuid>7e66cb8e-6e55-4f4f-9e0c-0626f1cf6c8f</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>ralibrarynotification</Name>
-    <RootNamespace>ralibrary-notification</RootNamespace>
-    <InterpreterId>{366bce24-989d-4696-8e3e-9aae9f953bf9}</InterpreterId>
+    <Name>tests</Name>
+    <RootNamespace>tests</RootNamespace>
+    <InterpreterId>{b9c841eb-54ec-4a40-9303-dd474a144269}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -24,45 +24,24 @@
     <DebugSymbols>true</DebugSymbols>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="borrowsloader.py">
+    <Compile Include="mock_config.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="certificate.py">
+    <Compile Include="mock_requests.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="config.py">
+    <Compile Include="test_borrowsloader.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="log.py" />
-    <Compile Include="message_formatter.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mailnotification.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="__main__.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\" />
-    <Folder Include="logs\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets\certificate.cer" />
-    <Content Include="assets\config.json">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="logs\README.md" />
-    <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="..\..\..\..\AppData\Local\Programs\Python\Python36-32-VirtualEnv\">
-      <Id>{366bce24-989d-4696-8e3e-9aae9f953bf9}</Id>
+      <Id>{b9c841eb-54ec-4a40-9303-dd474a144269}</Id>
       <BaseInterpreter>{019d98dd-ca3d-4eaa-8b12-abeb9a878def}</BaseInterpreter>
       <Version>3.5</Version>
       <Description>Python36-32-VirtualEnv (Python36-32)</Description>
@@ -74,10 +53,6 @@
       <Architecture>X86</Architecture>
     </Interpreter>
   </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
-  </PropertyGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
   <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
