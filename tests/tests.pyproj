@@ -38,6 +38,9 @@
     <Compile Include="mock_requests.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test_borrows.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test_borrowsloader.py">
       <SubType>Code</SubType>
     </Compile>

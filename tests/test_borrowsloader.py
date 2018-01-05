@@ -18,18 +18,6 @@ class TestBorrowsLoader(unittest.TestCase):
         mocked_requests_get.assert_called_once()
         self.assertEqual(borrows, mock_borrows)
 
-    @mock.patch('requests.get',
-                side_effect=mocked_requests_get)
-    def test_load_about_expire(self, mocked_requests_get):
-        borrows = BorrowsLoader(MockConfig()).load_about_expire()
-        self.assertEqual(sum(1 for _ in borrows), 3)
-
-    @mock.patch('requests.get',
-                side_effect=mocked_requests_get)
-    def test_load_expired(self, mocked_requests_get):
-        borrows = BorrowsLoader(MockConfig()).load_expired()
-        self.assertEqual(sum(1 for _ in borrows), 2)
-
 
 if __name__ == '__main__':
     unittest.main()

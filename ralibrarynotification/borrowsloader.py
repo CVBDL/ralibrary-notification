@@ -1,9 +1,6 @@
 import dateutil.parser
 import os
 import requests
-from datetime import datetime, timedelta
-from itertools import groupby
-
 from ralibrarynotification.certificate import Certificate
 
 
@@ -16,11 +13,6 @@ class BorrowsLoader:
 
     def __init__(self, config):
         self._config = config
-
-    @staticmethod
-    def groupby_borrower(borrows):
-        keyfunc = lambda b: b['Borrower']
-        return groupby(sorted(borrows, key=keyfunc), keyfunc)
 
     def load(self):
         if not self._is_loaded:
@@ -41,26 +33,3 @@ class BorrowsLoader:
             self._is_loaded = True
         # list of all borrows
         return self._borrows
-
-    def load_about_expire(self):
-        if not self._is_loaded:
-            self.load()
-        return filter(self._is_about_expire, self._borrows)
-
-    def load_expired(self):
-        if not self._is_loaded:
-            self.load()
-        return filter(self._is_expired, self._borrows)
-
-    def _is_about_expire(self, borrow: dict, threshold=None) -> bool:
-        if threshold is None:
-            expire_threshold = timedelta(days=self._config.reminder_days)
-        else:
-            expire_threshold = timedelta(days=threshold)
-        utcnow = datetime.utcnow()
-        expected_return_time = dateutil.parser.parse(
-            borrow['ExpectedReturnTime'])
-        return (utcnow + expire_threshold) >= expected_return_time
-
-    def _is_expired(self, borrow: dict) -> bool:
-        return self._is_about_expire(borrow, 0)

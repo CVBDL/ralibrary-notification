@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+
 mock_borrows = [
   {
     "Borrower": "patrick@example.com",
@@ -84,3 +87,28 @@ mock_borrows = [
     }
   }
 ]
+
+def make_borrow(days_ago=0):
+    expected_return_time = (
+        datetime.utcnow() - timedelta(days=days_ago)).isoformat()
+
+    return {
+        "Borrower": "patrick@example.com",
+        "BorrowTime": "2018-02-01T05:19:43.957",
+        "ExpectedReturnTime": expected_return_time,
+        "Book": {
+          "Id": 52,
+          "Code": "P410",
+          "ISBN10": None,
+          "ISBN13": "9781491946008",
+          "Title": "Fluent Python",
+          "Subtitle": "",
+          "Authors": "Luciano Ramalho",
+          "Publisher": "O'Reilly Media",
+          "PublishedDate": "2015-8-20",
+          "Description": "",
+          "PageCount": 768,
+          "ThumbnailLink": "",
+          "CreatedDate": "2017-11-09T00:42:00.177"
+        }
+    }

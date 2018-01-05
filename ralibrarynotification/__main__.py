@@ -8,6 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 import time
 
 from ralibrarynotification import config
+from ralibrarynotification.borrows import Borrows
 from ralibrarynotification.borrowsloader import BorrowsLoader
 from ralibrarynotification.log import logger
 from ralibrarynotification.message_formatter import MessageFormatter
@@ -18,11 +19,12 @@ if __name__ == '__main__':
     logger.info('Job started.')
     try:
         cfg = config.get_config()
-        borrowsloader = BorrowsLoader(cfg)
-        for borrower, borrows in BorrowsLoader.groupby_borrower(
-                borrowsloader.load_about_expire()):
+        borrows_data = BorrowsLoader(cfg).load()
+        borrows = Borrows(cfg, borrows_data)
+        for borrower, borrower_borrows in Borrows.groupby_borrower(
+                borrows.list_about_expire()):
             try:
-                msg = MessageFormatter(cfg, borrows).serialize()
+                msg = MessageFormatter(cfg, borrower_borrows).serialize()
             except Exception as e:
                 raise Exception(str.format('MessageFormatter: {0}', e))
             try:

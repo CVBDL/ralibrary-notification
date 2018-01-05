@@ -25,6 +25,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="borrows.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="borrowsloader.py">
       <SubType>Code</SubType>
     </Compile>
