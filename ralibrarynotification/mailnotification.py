@@ -1,7 +1,4 @@
-import dateutil.parser
-import os
 import requests
-from datetime import datetime, timedelta
 
 from ralibrarynotification.certificate import Certificate
 
@@ -11,6 +8,7 @@ class MailNotificationError(Exception):
 
 
 class MailNotification:
+
     _config = None
     _msg = None
     _to = None

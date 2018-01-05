@@ -1,4 +1,6 @@
 class MessageFormatter:
+    """Formatting notification message."""
+
     _borrows = None
     _config = None
 
