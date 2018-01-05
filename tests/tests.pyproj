@@ -29,6 +29,9 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="mock_borrows.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mock_config.py">
       <SubType>Code</SubType>
     </Compile>

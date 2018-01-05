@@ -1,11 +1,17 @@
 import sys
+import os
+
+# Add project top level directory to search path.
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             '..'))
+
 import time
 
-import config
-from borrowsloader import BorrowsLoader
-from log import logger
-from message_formatter import MessageFormatter
-from mailnotification import MailNotification, MailNotificationError
+from ralibrarynotification import config
+from ralibrarynotification.borrowsloader import BorrowsLoader
+from ralibrarynotification.log import logger
+from ralibrarynotification.message_formatter import MessageFormatter
+from ralibrarynotification.mailnotification import MailNotification, MailNotificationError
 
 
 if __name__ == '__main__':

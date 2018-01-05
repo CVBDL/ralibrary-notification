@@ -4,7 +4,7 @@ import requests
 from datetime import datetime, timedelta
 from itertools import groupby
 
-from certificate import Certificate
+from ralibrarynotification.certificate import Certificate
 
 
 class BorrowsLoader:
