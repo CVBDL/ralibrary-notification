@@ -1,6 +1,6 @@
 # RaLibrary Notification Script
 
-# Run script
+## Run script
 
 ```sh
 # path to 'ralibrarynotification''
