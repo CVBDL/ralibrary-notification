@@ -15,5 +15,5 @@
 
   "request_interval": 2,
 
-  "reminder_days": 300
+  "reminder_days": 14
 }
