@@ -8,6 +8,7 @@
   "email_from": "noreply@rockwellautomation.com",
   "email_body": "RA Library Reminder: Your borrowed books are about to expire.",
   "email_subject": "RA book library reminder",
+  "email_cc_admin": ["pzhong@ra.rockwell.com"],
 
   "ralibrary_client":  "https://apcndaec3ycs12.ra-int.com/ralibraryclient/profile",
 

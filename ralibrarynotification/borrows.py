@@ -18,21 +18,14 @@ class Borrows:
         keyfunc = lambda b: b['Borrower']
         return groupby(sorted(borrows, key=keyfunc), keyfunc)
 
-    def list_about_expire(self):
-        return filter(self._is_about_expire, self._borrows)
+    def list_by_remaining_days(self, days):
+        filter_fn = lambda borrow: self._calc_remaining_days(borrow) == days
+        #filter_fn = lambda b: True  # for test use
+        return filter(filter_fn, self._borrows)
 
-    def list_expired(self):
-        return filter(self._is_expired, self._borrows)
-
-    def _is_about_expire(self, borrow: dict, threshold=None) -> bool:
-        if threshold is None:
-            expire_threshold = timedelta(days=self._config.reminder_days)
-        else:
-            expire_threshold = timedelta(days=threshold)
+    def _calc_remaining_days(self, borrow: dict):
         utcnow = datetime.utcnow()
         expected_return_time = dateutil.parser.parse(
             borrow['ExpectedReturnTime'])
-        return (utcnow + expire_threshold) >= expected_return_time
-
-    def _is_expired(self, borrow: dict) -> bool:
-        return self._is_about_expire(borrow, 0)
+        delta = expected_return_time - utcnow
+        return delta.days

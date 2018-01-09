@@ -46,5 +46,6 @@ class MailNotification:
             'Cc': self._cc,
             'Bcc': self._bcc,
             'Subject': self._msg.get('title', ''),
-            'Body': self._msg.get('body', '')
+            'Body': self._msg.get('body', ''),
+            'IsHtml': True
         }

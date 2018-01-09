@@ -90,6 +90,10 @@ class Config:
         return self._config.get('email_body', body)
 
     @property
+    def email_cc_admin(self):
+        return self._config.get('email_cc_admin', [])
+
+    @property
     def ralibrary_client(self):
         return self._config.get('ralibrary_client', '')
 
