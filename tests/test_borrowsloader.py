@@ -1,4 +1,3 @@
-from datetime import datetime
 import unittest
 from unittest import mock
 
@@ -16,6 +15,14 @@ class TestBorrowsLoader(unittest.TestCase):
         borrows = BorrowsLoader(MockConfig()).load()
         mocked_requests_get.assert_called_once()
         self.assertEqual(borrows, mock_borrows)
+
+    @mock.patch('requests.get',
+                side_effect=mocked_requests_get)
+    def test_load_cache(self, mocked_requests_get):
+        loader = BorrowsLoader(MockConfig())
+        borrows_1 = loader.load()
+        borrows_2 = loader.load()
+        mocked_requests_get.assert_called_once()
 
 
 if __name__ == '__main__':
