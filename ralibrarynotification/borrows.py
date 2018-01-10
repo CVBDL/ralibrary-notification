@@ -20,7 +20,6 @@ class Borrows:
 
     def list_by_remaining_days(self, days):
         filter_fn = lambda borrow: self._calc_remaining_days(borrow) == days
-        #filter_fn = lambda b: True  # for test use
         return filter(filter_fn, self._borrows)
 
     def _calc_remaining_days(self, borrow: dict):

@@ -1,6 +1,5 @@
 import sys
 import os
-import time
 
 # Add project top level directory to search path.
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),

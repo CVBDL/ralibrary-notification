@@ -33,7 +33,8 @@ class MessageFormatter:
                                borrow['ExpectedReturnTime'])
         body += '</ol>'
         body += str.format(
-            '<p>View it in RA book library client: <a href="{0}" target="_blank">{0}</a></p>',
+            '<p>View it in RA book library client: '
+            '<a href="{0}" target="_blank">{0}</a></p>',
             self._config.ralibrary_client)
         return body
 
@@ -47,6 +48,7 @@ class MessageFormatter:
                                borrow['ExpectedReturnTime'])
         body += '</ol>'
         body += str.format(
-            '<p>View it in RA book library client: <a href="{0}" target="_blank">{0}</a></p>',
+            '<p>View it in RA book library client: '
+            '<a href="{0}" target="_blank">{0}</a></p>',
             self._config.ralibrary_client)
         return body

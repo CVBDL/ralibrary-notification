@@ -28,8 +28,9 @@ def _remind_about_to_expire(cfg, borrows):
             logger.warn(e)
         except Exception as e:
             raise Exception(str.format('MailNotification: {0}', e))
-        logger.info(str.format('Reminding books about to expire to <{0}>...Done',
-                               borrower))
+        else:
+            logger.info(str.format('Reminding books about to expire to <{0}>...Done',
+                                   borrower))
 
 
 def _remind_expired(cfg, borrows):
@@ -52,8 +53,9 @@ def _remind_expired(cfg, borrows):
             logger.warn(e)
         except Exception as e:
             raise Exception(str.format('MailNotification: {0}', e))
-        logger.info(str.format('Reminding books expired to <{0}>...Done',
-                               borrower))
+        else:
+            logger.info(str.format('Reminding books expired to <{0}>...Done',
+                                   borrower))
 
 
 def main():
@@ -65,7 +67,7 @@ def main():
         logger.info('Current config options:')
         logger.info(str.format('- RA library endpoint: {0}',
                                cfg.api_endpoint_borrows))
-        logger.info(str.format('- Main notification endpoint: {0}',
+        logger.info(str.format('- Mail notification endpoint: {0}',
                                cfg.api_endpoint_mailnotification))
         logger.info(str.format('- Reminder days: {0}',
                                cfg.reminder_days))
