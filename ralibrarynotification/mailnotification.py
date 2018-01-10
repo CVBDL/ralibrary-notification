@@ -8,6 +8,7 @@ class MailNotificationError(Exception):
 
 
 class MailNotification:
+    """Send notifications via e-mail."""
 
     _config = None
     _msg = None

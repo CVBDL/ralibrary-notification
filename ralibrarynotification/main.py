@@ -1,3 +1,5 @@
+"""Main module of script."""
+
 import sys
 import time
 
@@ -59,6 +61,28 @@ def _remind_expired(cfg, borrows):
 
 
 def main():
+    """Main function.
+
+    Workflow:
+        1. Read config file.
+        2. Fetch borrows data.
+        3. Notify borrowers if their books are about to expire.
+        3. Notify borrowers if their books are already expired.
+
+    Q: When is "about to expire"?
+    A: Say "reminder days" config is set to 14 days.
+       Say one borrowed book's expected return date is 2018-01-29.
+       Say today is 2018-01-15, 14 days before expected return date.
+       Then, today is "about to expire", ONLY today.
+       It'll ensure we only notify once instead of every day.
+
+    Q: When is "expired"?
+    A: Say "reminder days" config is set to 14 days.
+       Say one borrowed book's expected return date is 2018-01-29.
+       Say today is 2018-01-29.
+       Then, today is "expired", ONLY today.
+       It'll ensure we only notify once instead of every day.
+    """
     logger.info('Script started running.')
 
     try:
