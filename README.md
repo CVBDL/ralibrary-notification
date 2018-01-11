@@ -3,7 +3,7 @@
 ## Run script
 
 ```sh
-# path to 'ralibrarynotification''
+# path to 'ralibrarynotification'
 python3 "C:\GitHub\ralibrary-notification\ralibrarynotification"
 ```
 
