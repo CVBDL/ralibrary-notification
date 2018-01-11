@@ -3,6 +3,9 @@
 ## Run script
 
 ```sh
+# install dependencies
+pip install -r requirements.txt
+
 # path to 'ralibrarynotification'
 python3 "C:\GitHub\ralibrary-notification\ralibrarynotification"
 ```
